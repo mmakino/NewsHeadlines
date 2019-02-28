@@ -1,38 +1,33 @@
-<header>
-  <div class="card my-2">
-    <h2 class="card-header bg-dark text-white">
-      News Headlines
-    </h2>
-    <div class="card-body">
-      <h5 class="card-title">EE Times Edition</h5> 
-    </div>
-    <p class="card-text"></p>
-  </div>
-</header>
-
 {{#if article}}
-  
   {{#each article}}
-    <div class="card mb-2">
+    <div class="card border-secondary mb-2">
       <div class="card-body">
         <h5 class="card-title">{{headline}}</h5>
-      <img class="card-img-top float-left mr-3" src="{{imageURL}}" alt="no image available"
-      style="width: 20vw; float: left">
+        <img class="card-img-top float-left mr-3" src="{{imageURL}}" alt="no image available"
+          style="width: 20vw; float: left">
         <p class="card-text">
           {{summary}}
-          <a href="{{link}}" class="ml-2">Read more</a>
-          </p>
+          <a href="{{link}}" target="_blank" class="ml-2">Read more</a>
+        </p>
       </div>
       <div class="card-footer">
         <small class="text-muted">
-            <button class="btn-info float-right ml-1" id="{{this.id}}"">Comment</button>
-            <button class="btn-danger float-right mr-1">Delete</button>
+          <a href="/comment/{{_id}}">
+            <button class="btn-info float-right ml-1">Comment</button>
+          </a>
+          <button class="btn-danger float-right mr-1">Delete</button>
         </small>
       </div>
     </div>
   {{/each}}
 {{else}}
-  <h4>
-    No articles.
-  </h4>
+  <div class="mb-5">
+    <h4>
+      No articles.
+      <a class="btn btn-warning" href="/api/scrape" role="button" onClick="window.location.reload();">
+        Try Loading Articles
+      </a>
+    </h4>
+    <p>(press 2x if doesn't reload automatically)</p>
+  </div>
 {{/if}}

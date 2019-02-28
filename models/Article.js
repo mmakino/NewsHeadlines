@@ -23,7 +23,7 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  
+ 
   // `link` is a unique index and of type String
   link: {
     type: String,
@@ -31,26 +31,24 @@ const ArticleSchema = new Schema({
     unique: true,
   },
   
-  // `imageURL` is a link to an image if available
+  // a link to an image if available
   imageURL: {
     type: String,
     required: false,
     default: null,
   },
   
-  // `createdAt` is a time when this article is inserted
+  // the time when this article has been inserted
   createdAt: {
     type: Date,
     default: Date.now 
   },
   
-  // `note` is an object that stores a Note id
-  // The ref property links the ObjectId to the Note model
-  // This allows us to populate the Article with an associated Note
-  comment: {
-    type: Schema.Types.ObjectId,
-    ref: "Comment"
-  }
+  // an array of comment id's
+  comments: [{ 
+    type: Schema.Types.ObjectId, 
+    ref: 'Comment' 
+  }],
 });
 
 // This creates our model from the above schema, using mongoose's model method
