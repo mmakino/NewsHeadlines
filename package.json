@@ -1,0 +1,33 @@
+{
+  "name": "news-headlines",
+  "version": "1.0.0",
+  "description": "All the News That's Fit to Scrape",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmakino/NewsHeadlines.git"
+  },
+  "keywords": [
+    "cheerio",
+    "express-handlebars",
+    "mongoose"
+  ],
+  "author": "Motohiko Makino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmakino/NewsHeadlines/issues"
+  },
+  "homepage": "https://github.com/mmakino/NewsHeadlines#README.md",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.1",
+    "mongoose": "^5.4.15",
+    "morgan": "^1.9.1"
+  }
+}
