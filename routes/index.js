@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Routes for the html page
+Routes for the main html page
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 "use strict";
 
@@ -18,7 +18,7 @@ router.get("/test", (req, res) => {
 // A GET route for all articles
 //
 router.get("/", (req, res) => {
-  db.Article.find({}).sort({ createdAt: 1 })
+  db.Article.find({}).sort({ createdAt: -1 })
     .then(result => {
       console.log(`Article count: ${result.length}`);
       res.render("index", { article: result });
@@ -29,49 +29,19 @@ router.get("/", (req, res) => {
 });
 
 //
-// GET /comment/:articleId
-// Article comment page
+// A GET route for all commented articles
 //
-router.get("/comment/:articleId", (req, res) => {
-  db.Article.findOne({
-    _id: req.params.articleId
-  })
-  .populate("comments")
-  .then(article => {
-    console.log("COMMENT+ARTICLE ", article);
-    res.render("comment", { 
-      article: article,
+router.get("/commented", (req, res) => {
+  db.Article.find({
+    comments: { $ne: [] }
+  }).sort({ createdAt: -1 })
+    .then(result => {
+      console.log(`Article count: ${result.length}`);
+      res.render("index", { article: result });
+    })
+    .catch(err => {
+      res.render("index", { article: "failed to get articles"});
     });
-  })
-  .catch(err => res.send(err));
-});
-
-//
-// POST /comment/:articleId
-// Article comment page
-//
-router.post("/comment/:articleId", (req, res) => {
-  new db.Comment({
-    title: req.body.title,
-    body: req.body.comment,
-    article: req.params.articleId
-  })
-  .save()
-  .then(comment => {
-    db.Article.findOne({
-      _id: comment.article
-    })
-    .then(article => {
-      article.comments.push(comment._id);
-      article
-        .save()
-        .then(article => {
-          res.redirect("/comment/" + comment.article);
-        })
-        .catch(err => res.send(err));
-    })
-    .catch(err => res.send(err));
-  });
 });
 
 module.exports = router;
