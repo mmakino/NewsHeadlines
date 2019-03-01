@@ -11,9 +11,6 @@ const express = require("express");
 const exphbs = require('express-handlebars');
 const mongoose = require("mongoose");
 
-// logging module
-const logger = require("morgan");
-
 // Load mongoose database models
 const db = require("./models");
 
@@ -34,9 +31,6 @@ app.set('view engine', 'handlebars');
 
 // = = = = = = = = = = = = = =
 // == Configure middleware ==
-
-// Use morgan logger for logging requests
-app.use(logger("dev"));
 
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
