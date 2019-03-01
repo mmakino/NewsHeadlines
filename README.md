@@ -26,7 +26,7 @@
 ### Deployment and Availability
 
 * Heroku
-  * Live app - <TBD>
+  * Live app - https://stormy-cove-58118.herokuapp.com/
 * GitHub
   * Repository - https://github.com/mmakino/NewsHeadlines
 
