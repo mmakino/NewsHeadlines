@@ -26,7 +26,6 @@ router.get("/:articleId", (req, res) => {
   })
   .populate("comments")
   .then(article => {
-    console.log("COMMENT+ARTICLE ", article);
     res.render("comment", { 
       article: article,
     });
@@ -68,13 +67,24 @@ router.post("/:articleId", (req, res) => {
 // Remove the comment 
 //
 router.delete("/:commentId", (req, res) => {
-  db.Comment.deleteOne({
+  db.Comment.findOneAndDelete({
     _id: req.params.commentId
   })
-  .then(result => {
-    console.log("successful deletion", result);
-    req.method = "GET";
-    res.redirect(200, req.originalUrl);
+  .then(comment => {
+    db.Article.findOneAndUpdate({
+      _id: comment.article
+    }, {
+      $pull: { comments: comment._id }
+    }, {
+      returnNewDocument: true
+    })
+    .populate("comments")
+    .then(article => {
+      res.render("comment", { 
+        article: article,
+      });
+    })
+    .catch(err => res.send(err));
   })
   .catch(err => res.send(err));
 });

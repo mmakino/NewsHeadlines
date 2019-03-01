@@ -1,13 +1,12 @@
 /* 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- Router(s) for scraping articles at a web site
+ Scrape articles at a web site 
+ No route. Only exports "scrapeEETimes" function
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 */
 "use strict";
 
-// Load express and mongodb 
-const express = require("express");
-const router = express.Router();
+// Load models 
 const db = require("../../models");
 
 // modules for scraping
@@ -15,46 +14,23 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 // the target web site config
-const url = "http://www.eetimes.com/";
+const EETimesURL = "http://www.eetimes.com/";
 
 //
-// GET /api/scrape/test
+// Scrape EE Times
 //
-router.get("/test", (req, res) => {
-  res.json({ test: "/api/scrape/test"});
-});
-
-//
-// A GET route for scraping at EE Times website
-//
-router.get("/", (req, res) => {
+function scrapeEETimes(url = EETimesURL) {
   // First, grab the body of the html with axios
   axios.get(url).then(response => {
     // collect articles in the body
-    const articleInfo = collectEETimesNews(response.data);
-
-    // Insert the collected articles into the database
-    articleInfo.forEach(item => {
-      const article = new db.Article(item);
-      
-      article
-        .save()
-        .then(dbArticle => console.log(dbArticle))
-        .catch(err => console.log(err));
+    const articleInfo = collectEETimesNews(response.data).map(article => {
+      article.link = url + article.link;
+      return article;
     });
+    console.log(`Found ${articleInfo.length} articles`);
+    addArticles(articleInfo);
   });
-
-  console.log("Scrape Complete");
-  res.redirect("/");
-});
-
-//
-// Export the router
-//
-module.exports = router;
-
-/* * * * * * * * * * * * * * * * * * */
-/* Helper Functions */
+}
 
 //
 // Collect articles on the EE Times main web page
@@ -76,16 +52,49 @@ function collectEETimesNews(data) {
 
   contexts.forEach(context => {
     context.each(function(i, element) {
-      let article = {};
-      
-      article.headline = $(".card .card-body .card-title a", element).text();
-      article.summary = $(".card .card-body .card-text", element).text();
-      article.link = url + $(".card figure a", element).attr("href");
-      article.imageURL = $(".card figure a img", element).attr("src");
-      
-      articles.push(article);
+      articles.push({
+        headline: $(".card .card-body .card-title a", element).text(),
+        summary: $(".card .card-body .card-text", element).text(),
+        link: $(".card figure a", element).attr("href"),
+        imageURL: $(".card figure a img", element).attr("src")
+      });
     });
   }); 
   
   return articles;
 }
+
+//
+// Insert articles into the Article collection
+//
+function addArticles(articles) {
+  console.log(`Adding ${articles.length} articles`);
+  
+  articles.forEach(item => {
+    // const article = new db.Article(item);
+    
+    // "unique" constraint doesn't seem to work sometimes(?)
+    // somehow allowing to insert duplicates
+    // article
+    //   .save()
+    //   .then(dbArticle => console.log(dbArticle))
+    //   .catch(err => console.log(err));
+    
+    // console.log(`Adding ${item}`);
+    db.Article.findOneAndUpdate({
+      link: item.link
+    }, 
+    item, {
+      upsert: true,
+      returnNewDocument: true
+    })
+    .then(doc => {
+      // console.log(`Added ${doc}`);
+      ;
+    })
+    .catch(err => console.log(err));
+  });
+}
+
+// * * * export * * *
+module.exports = scrapeEETimes;

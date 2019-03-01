@@ -4,11 +4,11 @@
 
 ## Overview
 
-* News Headlines is a new scraping app that scrapes news articles from a web site
-  and display. In this edition, the app will fetch articles from [`EE Times`](https://www.eetimes.com/) and displays the followings:
+* News Headlines is a news scraping app that scrapes news articles from a web site
+  and display on the main page. In this edition, the app will fetch articles from [`EE Times`](https://www.eetimes.com/) and displays the followings:
      * Headline - the title of the article
      * Summary - a short summary of the article
-     * URL - the url to the original article
+     * Link - the url link to the original article
      * Image - an image of the article
      
 * Along with each article, there are `Delete` and `Comment` buttons.
@@ -21,7 +21,7 @@
 ## Objectives
 
 * Implement the app with MVC Restful API using `Node.js`, `Express`, and `Handlebars`
-* Utilize `MongoDB` and `Mongoose ODM` including multiple tables and relations
+* Utilize `MongoDB` and `Mongoose ODM` including multiple collections and embedded documents
 * Scrape an external web site for news articles using `cheerio` and `axios`
 
 ### Deployment and Availability
@@ -64,7 +64,7 @@
         * PORT: 3003
 1. Start the web server
     ```
-    node run server
+    npm run server
     ```
     * It should display the following message when the server has started successfully
       ```

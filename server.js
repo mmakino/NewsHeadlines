@@ -20,7 +20,6 @@ const PORT = process.env.PORT || 3003;
 // Load routes
 const index = require("./routes/index");
 const comment = require("./routes/comment");
-const scrape = require("./routes/api/scrape");
 const articles = require("./routes/api/articles");
 
 // Initialize Express
@@ -42,7 +41,6 @@ app.use(express.static("public"));
 // Set up router middleware
 app.use("/", index);
 app.use("/comment", comment);
-app.use("/api/scrape", scrape);
 app.use("/api/articles", articles);
 
 // = = = = = = = = = = = = = =

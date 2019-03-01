@@ -13,9 +13,11 @@
       <div class="card-footer">
         <small class="text-muted">
           <a href="/comment/{{_id}}">
-            <button class="btn-info float-right ml-1">Comment</button>
+            <button type="button" class="btn btn-info float-right ml-1" style="font-size: 0.9em">
+              Comment <span class="badge badge-light">{{comments.length}}</span>
+            </button>
           </a>
-          <button class="btn-danger float-right mr-1 delete-article" article-id="{{_id}}">Delete</button>
+          <button type="button" class="btn btn-danger float-right mr-1 delete-article" article-id="{{_id}}" style="font-size: 0.9em">Delete</button>
         </small>
       </div>
     </div>
@@ -24,7 +26,7 @@
   <div class="mb-5">
     <h4>
       No articles.
-      <a class="btn btn-warning" href="/api/scrape" role="button" onClick="window.location.reload();">
+      <a class="btn btn-warning" href="/scrape" role="button" onClick="window.location.reload();">
         Try Loading Articles
       </a>
     </h4>
