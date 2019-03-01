@@ -1,10 +1,11 @@
-# News Headlines -- EE Times edition
+# All the News That's Fit to Scrape
+
+## __News Headlines -- EE Times edition__
 
 ## Overview
 
 * News Headlines is a new scraping app that scrapes news articles from a web site
-  and display. In this edition, the app will fetch articles from `EE Times` and
-  displays the followings:
+  and display. In this edition, the app will fetch articles from [`EE Times`](https://www.eetimes.com/) and displays the followings:
      * Headline - the title of the article
      * Summary - a short summary of the article
      * URL - the url to the original article
@@ -19,9 +20,9 @@
 
 ## Objectives
 
-* Implement the app with MVC Restful API using Node.js, Express, and Handlebars
-* Utilize MongoDB and Mongoose ODM including multiple tables and relations
-* `Scrape` an external web site for news articles using `cheerio` and `axios`
+* Implement the app with MVC Restful API using `Node.js`, `Express`, and `Handlebars`
+* Utilize `MongoDB` and `Mongoose ODM` including multiple tables and relations
+* Scrape an external web site for news articles using `cheerio` and `axios`
 
 ### Deployment and Availability
 
@@ -76,6 +77,27 @@
     ```
     http://localhost:3003/
     ```
+
+### Demo
+
+* The main page displays `scraped articles` from [EE Times](https://www.eetimes.com/)
+
+   [![main page](public/image/demo_main.png)](https://stormy-cove-58118.herokuapp.com/)
+   
+* Pressing the `Delete` button of each article will delete the article.
+
+* The `Scrape` button on the navbar on top will fetch and (re-)populate articles.
+
+* Pressing the `Comment` button of each article will take a user to an individual article page with comments (if already any). A user can post a comment using the `Post Comment` form at the bottom of the page.
+
+   [![article page](public/image/demo_post-comment.png)](https://stormy-cove-58118.herokuapp.com/)
+   
+* A comment can be deleted by pressing the `Delete` button for each comment.
+
+   [![comment](public/image/demo_comment.png)](https://stormy-cove-58118.herokuapp.com/)
+
+* The `Commented` button on the navbar will display only articles that have been commented.
+
 
 #### Written by [Motohiko Makino](https://mmakino.github.io/)
 

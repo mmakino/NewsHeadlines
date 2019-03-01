@@ -70,6 +70,7 @@ router.post("/:id", function(req, res) {
 // Route for an Article's associated 
 // 
 router.delete("/:id", function(req, res) {
+
   db.Article.deleteOne({
     _id: req.params.id
   })
