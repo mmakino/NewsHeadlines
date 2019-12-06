@@ -24,7 +24,7 @@ function scrapeEETimes(url = EETimesURL) {
   axios.get(url).then(response => {
     // collect articles in the body
     const articleInfo = collectEETimesNews(response.data).map(article => {
-      article.link = url + article.link;
+      article.link = article.link;
       return article;
     });
     console.log(`Found ${articleInfo.length} articles`);
