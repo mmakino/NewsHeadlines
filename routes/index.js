@@ -52,14 +52,18 @@ router.get("/commented", (req, res) => {
 // A GET route for scraping articles
 //
 router.get("/scrape", (req, res) => {
-  const articles = scraper();
-  
-  // if (articles.lenth === 0) {
-  //   res.render("index", { article: "failed to retrieve articles"});
-  // } else {
-  //   res.render("index", { article: articles });
-  // }
-  res.redirect("/");
+  scraper()
+  .then(articles => {
+    // if (articles.lenth === 0) {
+    //   res.render("index", { article: "failed to retrieve articles"});
+    // }
+    // res.render("index", { article: articles });
+    res.redirect("/");  
+  })
+  .catch(error => {
+    res.render("index", { article: "failed to retrieve articles: " + error});
+  });
 });
+
 
 module.exports = router;

@@ -20,15 +20,24 @@ const EETimesURL = "http://www.eetimes.com/";
 // Scrape EE Times
 //
 function scrapeEETimes(url = EETimesURL) {
-  // First, grab the body of the html with axios
-  axios.get(url).then(response => {
-    // collect articles in the body
-    const articleInfo = collectEETimesNews(response.data).map(article => {
-      article.link = article.link;
-      return article;
-    });
-    console.log(`Found ${articleInfo.length} articles`);
-    addArticles(articleInfo);
+  return new Promise((resolve, reject) => {
+    // First, grab the body of the html with axios
+    axios.get(url)
+      .then(response => {
+        // collect articles in the body
+        const articleInfo = collectEETimesNews(response.data).map(article => {
+          console.log(JSON.stringify(article));
+          article.link = article.link;
+          return article;
+        });
+        console.log(`Found ${articleInfo.length} articles`);
+        addArticles(articleInfo);
+        resolve(articleInfo);
+      })
+      .catch(error => {
+        console.log(error);
+        reject(error);
+      });
   });
 }
 
@@ -71,16 +80,8 @@ function addArticles(articles) {
   console.log(`Adding ${articles.length} articles`);
   
   articles.forEach(item => {
-    // const article = new db.Article(item);
+    console.log(`Adding --------------\n\t${JSON.stringify(item)}\n`);
     
-    // "unique" constraint doesn't seem to work sometimes(?)
-    // somehow allowing to insert duplicates
-    // article
-    //   .save()
-    //   .then(dbArticle => console.log(dbArticle))
-    //   .catch(err => console.log(err));
-    
-    // console.log(`Adding ${item}`);
     db.Article.findOneAndUpdate({
       link: item.link
     }, 
@@ -90,9 +91,12 @@ function addArticles(articles) {
     })
     .then(doc => {
       // console.log(`Added ${doc}`);
-      ;
+      return doc;
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(err);
+      return err;
+    });
   });
 }
 
