@@ -53,29 +53,29 @@ router.get("/commented", (req, res) => {
 //
 // // On heroku, web scraping causes timeout
 //
-// router.get("/scrape", (req, res) => {
-//   scraper(); // go async
-//   setTimeout(waitAndReloadRoot, 3000, res);
-// });
+router.get("/scrape", (req, res) => {
+  scraper(); // go async
+  setTimeout(waitAndReloadRoot, 2500, res);
+});
 
 //
 // helper function for "/scrape" route for redirecting to root "/"
 //
-// function waitAndReloadRoot(res) {
-//   res.redirect('/');
-// }
+function waitAndReloadRoot(res) {
+  res.redirect('/');
+}
 
 //
 // In conjunction with Promise-based scraping
 //
-router.get("/scrape", (req, res) => {
-  scraper()
-  .then(articleInfo => {
-    res.redirect('/');
-  })
-  .catch(error => {
-    res.json(error);
-  });
-});
+// router.get("/scrape", (req, res) => {
+//   scraper()
+//   .then(articleInfo => {
+//     res.redirect('/');
+//   })
+//   .catch(error => {
+//     res.json(error);
+//   });
+// });
 
 module.exports = router;
