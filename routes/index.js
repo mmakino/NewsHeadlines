@@ -54,10 +54,6 @@ router.get("/commented", (req, res) => {
 router.get("/scrape", (req, res) => {
   scraper()
   .then(articles => {
-    // if (articles.lenth === 0) {
-    //   res.render("index", { article: "failed to retrieve articles"});
-    // }
-    // res.render("index", { article: articles });
     res.redirect("/");  
   })
   .catch(error => {

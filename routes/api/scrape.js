@@ -25,14 +25,13 @@ function scrapeEETimes(url = EETimesURL) {
     axios.get(url)
       .then(response => {
         // collect articles in the body
-        const articleInfo = collectEETimesNews(response.data).map(article => {
-          console.log(JSON.stringify(article));
-          article.link = article.link;
-          return article;
-        });
+        const articleInfo = collectEETimesNews(response.data);
         console.log(`Found ${articleInfo.length} articles`);
-        addArticles(articleInfo);
-        resolve(articleInfo);
+        if (articleInfo.length > 0) {
+          addArticles(articleInfo);
+          resolve(articleInfo);
+        }
+        reject('No articles fetched');
       })
       .catch(error => {
         console.log(error);
@@ -77,10 +76,8 @@ function collectEETimesNews(data) {
 // Insert articles into the Article collection
 //
 function addArticles(articles) {
-  console.log(`Adding ${articles.length} articles`);
-  
   articles.forEach(item => {
-    console.log(`Adding --------------\n\t${JSON.stringify(item)}\n`);
+    // console.log(`Adding --------------\n\t${JSON.stringify(item)}\n`);
     
     db.Article.findOneAndUpdate({
       link: item.link
