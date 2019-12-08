@@ -28,6 +28,8 @@
 
 * Heroku
   * Live app - https://stormy-cove-58118.herokuapp.com/
+  * Limitation: Scraping on heroku does NOT work by getting code=H12 desc="Request timeout"
+    * I've tried Promise, setting timer, etc. but still unable to find a good solution to make it work on heroku.
 * GitHub
   * Repository - https://github.com/mmakino/NewsHeadlines
 
