@@ -51,15 +51,18 @@ router.get("/commented", (req, res) => {
 //
 // A GET route for scraping articles
 //
+// // On heroku, web scraping causes timeout
+//
 router.get("/scrape", (req, res) => {
-  scraper()
-  .then(articles => {
-    res.redirect("/");  
-  })
-  .catch(error => {
-    res.render("index", { article: "failed to retrieve articles: " + error});
-  });
+  scraper(); // go async
+  setTimeout(waitAndReloadRoot, 3000, res);
 });
 
+//
+// helper function for "/scrape" route for redirecting to root "/"
+//
+function waitAndReloadRoot(res) {
+  res.redirect('/');
+}
 
 module.exports = router;

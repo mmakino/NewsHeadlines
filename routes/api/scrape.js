@@ -20,24 +20,19 @@ const EETimesURL = "http://www.eetimes.com/";
 // Scrape EE Times
 //
 function scrapeEETimes(url = EETimesURL) {
-  return new Promise((resolve, reject) => {
-    // First, grab the body of the html with axios
-    axios.get(url)
-      .then(response => {
-        // collect articles in the body
-        const articleInfo = collectEETimesNews(response.data);
-        console.log(`Found ${articleInfo.length} articles`);
-        if (articleInfo.length > 0) {
-          addArticles(articleInfo);
-          resolve(articleInfo);
-        }
-        reject('No articles fetched');
-      })
-      .catch(error => {
-        console.log(error);
-        reject(error);
-      });
-  });
+  // First, grab the body of the html with axios
+  axios.get(url)
+    .then(response => {
+      // collect articles in the body
+      const articleInfo = collectEETimesNews(response.data);
+      console.log(`Found ${articleInfo.length} articles`);
+      if (articleInfo.length > 0) {
+        addArticles(articleInfo);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
 
 //
