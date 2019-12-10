@@ -28,7 +28,7 @@
 
 * Heroku
   * Live app - https://stormy-cove-58118.herokuapp.com/
-    * Scraping does not work. Please see [Limitation and Potential issue](#Limitation-and-Potential-issue)
+    * Scraping does not work on heroku. Please see [Limitation and Potential issue](#Limitation-and-Potential-issue)
 * GitHub
   * Repository - https://github.com/mmakino/NewsHeadlines
 
