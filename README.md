@@ -28,6 +28,7 @@
 
 * Heroku
   * Live app - https://stormy-cove-58118.herokuapp.com/
+    * Please see [Limitation and Potential issue](#Limitation-and-Potential-issue)
 * GitHub
   * Repository - https://github.com/mmakino/NewsHeadlines
 
@@ -78,8 +79,8 @@
     http://localhost:3003/
     ```
 
-### Limitation and Potential issue:
-  * EE Times http://www.eetimes.com appears to be __anti-scraping site__.
+### Limitation and Potential issue
+  * EE Times http://www.eetimes.com appears to be __anti-scraping site__
   * Local server on your computer
     * Most likely and hopefully it works
     * As of 2019-12-09, the web site still seems to allow a few spoofed User-Agents.
