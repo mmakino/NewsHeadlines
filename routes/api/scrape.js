@@ -14,51 +14,75 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 // the target web site config
-const EETimesURL = "http://www.eetimes.com/";
+const EETimesURL = "https://www.eetimes.com/";
+
+// Dummy User-Agent strings, since EE times seems to be anti-scraping site
+// However, the following bots appear to be allowed at least for now
+const UA = [
+  'Wget/1.19.4 (linux-gnu)',
+  'Googlebot/2.1 (+http://www.google.com/bot.html)'
+];
+
+//
+// Random array index for UA
+//
+function randomIndexForUA() {
+  return Math.floor(Math.random() * 10**Math.ceil(Math.log10(UA.length))) % UA.length;
+}
+
+function setUserAgent() {
+  axios.defaults.headers.common['User-Agent'] = UA[randomIndexForUA()];
+}
 
 //
 // Scrape EE Times
 //
-function scrapeEETimes(url = EETimesURL) {
-  // First, grab the body of the html with axios
-  axios.get(url)
-    .then(response => {
-      // collect articles in the body
-      const articleInfo = collectEETimesNews(response.data);
-      console.log(`Found ${articleInfo.length} articles`);
-      if (articleInfo.length > 0) {
-        addArticles(articleInfo);
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
+// function scrapeEETimes(url = EETimesURL) {
+//   setUserAgent();
+
+//   // First, grab the body of the html with axios
+//   axios.get(url, {
+//     timeout: 29000,
+//   })
+//     .then(response => {
+//       // collect articles in the body
+//       const articleInfo = collectEETimesNews(response.data);
+//       console.log(`Found ${articleInfo.length} articles`);
+//       if (articleInfo.length > 0) {
+//         addArticles(articleInfo);
+//       }
+//     })
+//     .catch(error => {
+//       console.log(error);
+//     });
+// }
 
 //
 // Promise version of scraping, good for timely reloading of a page
 //
-// function scrapeEETimes(url = EETimesURL) {
-//   return new Promise((resolve, reject) => {
-//     // First, grab the body of the html with axios
-//     axios.get(url)
-//       .then(response => {
-//         // collect articles in the body
-//         const articleInfo = collectEETimesNews(response.data);
-//         console.log(`Found ${articleInfo.length} articles`);
-//         if (articleInfo.length > 0) {
-//           addArticles(articleInfo);
-//           resolve(articleInfo);
-//         } else {
-//           resolve("No articles found");
-//         }
-//       })
-//       .catch(error => {
-//         console.log(error);
-//         reject(error);
-//       });
-//   });
-// }
+function scrapeEETimes(url = EETimesURL) {
+  return new Promise((resolve, reject) => {
+    // First, grab the body of the html with axios
+    axios.get(url, {
+      timeout: 29000
+    })
+      .then(response => {
+        // collect articles in the body
+        const articleInfo = collectEETimesNews(response.data);
+        console.log(`Found ${articleInfo.length} articles`);
+        if (articleInfo.length > 0) {
+          addArticles(articleInfo);
+          resolve(articleInfo);
+        } else {
+          resolve("No articles found");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
 
 //
 // Collect articles on the EE Times main web page

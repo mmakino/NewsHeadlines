@@ -28,9 +28,6 @@
 
 * Heroku
   * Live app - https://stormy-cove-58118.herokuapp.com/
-  * Limitation: 
-    * Scraping on heroku does NOT work by getting code=H12 desc="Request timeout"
-    * I've tried Promise, setting timer, etc. but still unable to find a good solution to make it work on heroku.
 * GitHub
   * Repository - https://github.com/mmakino/NewsHeadlines
 
@@ -81,6 +78,13 @@
     http://localhost:3003/
     ```
 
+### Potential issue:
+  * EE Times http://www.eetimes.com appears to be anti-scraping site.
+  * As of 2019-12-09, the web site still seems to allow a few spoofed User-Agents.
+    * See implementation details in `routes/api/scrape.js`
+  * The following article helped me get around from being blocked.
+    * https://www.scrapehero.com/how-to-prevent-getting-blacklisted-while-scraping/
+
 ### Demo
 
 * The main page displays `scraped articles` from [EE Times](https://www.eetimes.com/)
@@ -100,7 +104,6 @@
    [![comment](public/image/demo_comment.png)](https://stormy-cove-58118.herokuapp.com/)
 
 * The `Commented` button on the navbar will display only articles that have been commented.
-
 
 #### Written by [Motohiko Makino](https://mmakino.github.io/)
 
