@@ -78,12 +78,17 @@
     http://localhost:3003/
     ```
 
-### Potential issue:
-  * EE Times http://www.eetimes.com appears to be anti-scraping site.
-  * As of 2019-12-09, the web site still seems to allow a few spoofed User-Agents.
-    * See implementation details in `routes/api/scrape.js`
-  * The following article helped me get around from being blocked.
-    * https://www.scrapehero.com/how-to-prevent-getting-blacklisted-while-scraping/
+### Limitation and Potential issue:
+  * EE Times http://www.eetimes.com appears to be __anti-scraping site__.
+  * Local server on your computer
+    * Most likely and hopefully it works
+    * As of 2019-12-09, the web site still seems to allow a few spoofed User-Agents.
+      * See implementation details in `routes/api/scrape.js`
+    * The following article helped me get around from being blocked.
+      * https://www.scrapehero.com/how-to-prevent-getting-blacklisted-while-scraping/
+  * Heroku deployment
+    * The User-Agent spoofing workaround does not seem to work unfortunately.
+    * The request gets code=H12 desc="Request timeout"
 
 ### Demo
 
